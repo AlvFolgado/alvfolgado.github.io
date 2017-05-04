@@ -1,1 +1,1 @@
-Just my ptotally public Blog
+Just my totally public Blog
