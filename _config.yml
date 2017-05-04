@@ -18,12 +18,12 @@ footer-links:
   email:
   facebook:
   flickr:
-  github: https://github.com/AlvFolgado
+  github: "https://github.com/AlvFolgado"
   instagram:
-  linkedin: https://www.linkedin.com/in/alvaro-folgado-rueda-44292083
+  linkedin: "https://www.linkedin.com/in/alvaro-folgado-rueda-44292083"
   pinterest:
   rss: # just type anything here for a working RSS icon
-  twitter: @afolgad
+  twitter: "@afolgad"
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
   youtube: # channel/<your_long_string> or user/<user-name>
   googleplus: # anything in your profile username that comes after plus.google.com/
