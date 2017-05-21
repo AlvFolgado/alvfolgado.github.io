@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "Hello World"
-categories: LearningByDoing 
-tags:  CommandI ArgumentI Python
-author: HyG
+categories: LeraningByDoing 
+tags:  CommandI ArgumentI PHP
+author: AlvaroFolgado
 ---
 
 * content
