@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Hello World"
-categories: JavaScript 
-tags:  countdown JavaScript
+categories: Learning by Doing 
+tags:  CommandI ArgumentI Python
 author: HyG
 ---
 
