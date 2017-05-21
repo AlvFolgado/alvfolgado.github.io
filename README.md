@@ -1,1 +1,4 @@
-Just my totally public Blog
+My public blog.
+
+
+Theme designed by: https://github.com/Gaohaoyang
