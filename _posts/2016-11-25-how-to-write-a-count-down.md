@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Hello World"
-categories: Learning by Doing 
+categories: LearningByDoing 
 tags:  CommandI ArgumentI Python
 author: HyG
 ---
