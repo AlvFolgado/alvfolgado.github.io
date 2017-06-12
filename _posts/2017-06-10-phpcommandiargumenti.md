@@ -10,6 +10,8 @@ author: AlvaroFolgado
 {:toc}
 
 
+![](/images/phpcommandi.png)
+
 ## Introduction
 
 This is the first post inside the category “TheoricalPractise”. In these series I will use information around internet to build a working Proof of Concept and test dangerous functions in different languages with the objective to understand basic Web Exploitation vectors.
