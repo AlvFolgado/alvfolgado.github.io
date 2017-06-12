@@ -132,9 +132,14 @@ In the second option of the PoC we use a function accessible by PHP to escape po
 popen("/usr/sbin/sendmail -f".$emailFrom,"r");
 
 //We can try using the rest of dangerous functions here!
+
 ```
 
-This function will escape symbols as ';|{} ...'. But this php function will not escape spaces, the injection of them will be the key to exploit the Argument Injection. As we mentioned before, by analyzing the used executable we could be able to get an exploitation vector. The target executable is "sendmail", that in most of Unix OS is a soft link to the target binary to study: "exim4". Legalhackers have performed an outstanding study of it with exploitation intentions: [PHPMAILER CVE-2016-10033](https://exploitbox.io/vuln/WordPress-Exploit-4-6-RCE-CODE-EXEC-CVE-2016-10033.html)
+This function will escape symbols as ";|{} ...". 
+But this php function will not escape spaces, the injection of them will be the key to exploit the Argument Injection. 
+As we mentioned before, by analyzing the used executable we could be able to get an exploitation vector. 
+The target executable is "sendmail", that in most of Unix OS is a soft link to the target binary to study: "exim4".
+Legalhackers have performed an outstanding study of it with exploitation intentions: [PHPMAILER CVE-2016-10033](https://exploitbox.io/vuln/WordPress-Exploit-4-6-RCE-CODE-EXEC-CVE-2016-10033.html)
 
 Out from details that you can read there, "exim4" have an argument "-be" that let us basically to run shell commands in the operating system. Basically you can test running something like in bash:
 
