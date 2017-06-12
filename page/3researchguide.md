@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Hacking-Guide
-permalink: /hackinguide/
+title: Research-Guide
+permalink: /researchguide/
 icon: bookmark
 type: page
 ---
