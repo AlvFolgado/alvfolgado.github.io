@@ -12,7 +12,7 @@ type: page
 In this section I will provide the list of dangerous functions from the different languages and techniques that we could use to find out more bugs in 3PP libraries.
 
 
-## PHP: Command/Argument Injection:
+## PHP - Command/Argument Injection:
 
 ```php
 //Popen call pipe to the target process, is totally Command Injectable
@@ -45,6 +45,12 @@ proc_open("/usr/sbin/sendmail -f".$emailFrom, $descriptorspec, $pipes, $cwd, $en
 
 //Actually only working in CGI and PHP-CLI directly
 pcntl_exec("/usr/sbin/sendmail -f".$emailFrom);
+```
+
+## PHP - Argument Injection:
+
+```php
+mail($emailTo,$subject,$body,$headers,$InjectableExtraParams);
 ```
 ## Comments
 
