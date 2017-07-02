@@ -25,6 +25,13 @@
       title: 'Python Deserialization',
       core_tech: 'Python',
       description: 'Learn the dangerous functions in python that let deserialize data from an malicious input'
+    },{
+      demo_link: 'https://github.com/AlvFolgado/CVEPoCs/tree/master/PHP/ArgumentI/cve201610033',
+      img_link: 'https://github.com/AlvFolgado/CVEPoCs/blob/master/PHP/ArgumentI/cve201610033/static/string.jpg?raw=true',
+      code_link: 'https://github.com/AlvFolgado/CVEPoCs/tree/master/PHP/ArgumentI/cve201610033',
+      title: 'CVE-2016-1033',
+      core_tech: 'PHP',
+      description: 'PHPMailer CVE-2016-1033 Reproduction'
     } 
   ];
 

