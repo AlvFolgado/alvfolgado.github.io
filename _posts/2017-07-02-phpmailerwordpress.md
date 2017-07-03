@@ -14,7 +14,7 @@ author: AlvaroFolgado
 
 ## Introduction
 
-This is the first post within the category: "CVEReproduction". In these series I will be using existing reported CVE's or vulnerabilities and try to reproduce it correctly. The objective here is to use learned Attack Vectors in "TheoricalPractise" and see how this works in real software. As in the previous Sections this will be always supported by a PoC using vulnerable software. Inside [Poc Section](http://afolgado.com/poc/) we have everything we need to reproduce it, and the vulnerable code/software.
+This is the first post within the category: "CVEReproduction". In these series I will use existing reported CVE's or vulnerabilities and try to reproduce it correctly. The objective here is to use learned Attack Vectors in "TheoricalPractise" and to see how this works in real software. As in the previous Sections, this will be always supported by a PoC using vulnerable software. Inside [Poc Section](http://afolgado.com/poc/) we have everything we need to reproduce it, and the vulnerable code/software.
 
 PHPMailer PoC is very similar to [Php:CommandI&ArgumentI](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/). First function is using PHP mail() and second one is using the default PHPMailer configuration to send an email.
 To test the Wordpress vulnerability we will need old wordpress 4.6 and an old apache server version (tested on Ubuntu 10.04/apache 2.2.14).
@@ -22,7 +22,7 @@ To test the Wordpress vulnerability we will need old wordpress 4.6 and an old ap
 
 ## Argument Injection as a functionality: PHP mail() 
 
-In the last post we talked about the different dangerous functions that can be prone to Command Injection and Argument Injection. Those are obvious dangerous functions, but sometimes, the language provide us with more functions that we don't know yet that are dangerous . Developers doesn't know sometimes this as well when they are coding, or they don't know the 100% functionaility of some functions (something we can extend to the use of any third party library software). This 'new' dangerous function is the basic mail function in PHP. This function receive a bunch of parameters as we can see in the PHP 7 source code (Yes it is C!).
+In the last post we talked about the different dangerous functions that can be prone to Command Injection and Argument Injection. Those are obvious dangerous functions, but sometimes, programming languages provide us with more functions that we don't know yet that could be unsafe. Developers doesn't know sometimes this as well when they are coding, or they don't know the 100% functionailities of some functions (something we can extend to the use of any third party library software). This 'new' dangerous function is the basic mail function in PHP. This function receive a bunch of parameters as we can see in the PHP 7 source code.
 
 php-7.1.6/ext/standard/mail.c:
 
@@ -65,7 +65,7 @@ PHPAPI int php_mail(char *to, char *subject, char *message, char *headers, char 
 
 ```
 
-In first instance, after look at this C code we can think that "popen" as a dangerous function in C is being called without any kind of precaution. A test using our previous "commandebugger" bash script shows a funny result (more about of commandebugger tool [here](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/)).
+In first instance, after look at this C code we can think that "popen" as a dangerous function in C, is being called without any kind of precaution. A test using our previous "commandebugger" bash script shows a funny result (more about of commandebugger tool [here](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/)).
 
 ```bash
 Payload in emailFrom:
@@ -92,9 +92,9 @@ php-7.1.6/ext/standard/mail.c:
 [...]
 ```
 
-Although mail() is not vulnerable to Command Injection, Argument Injection is possible (as an functionality defined by the same name 'extra_arguments'). The use of mail() wildy in other libraries/software without precaution will be hazardous. We can consider mail() a dangerous function and I have added it to [Research-Guide](http://www.afolgado.com/researchguide/).
+Although mail() is not vulnerable to Command Injection, Argument Injection is possible (as a functionality pointed by the same name 'extra_arguments'). The use of mail() wildy in other libraries/software without precaution will be hazardous. We can consider mail() a dangerous function and I have added it to [Research-Guide](http://www.afolgado.com/researchguide/).
 
-To demonstrate this, let's apply a working payload in the PHP mail function and see how it works (using our commandebugger bash script). Let's use the last payload from [PHP Argument Injection](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/), since we know is being escaped, let's use the working payload for the Argument Injection:
+To demonstrate this, let's apply a working payload in the PHP mail function and see how it works (using our commandebugger bash script). Let's use the last payload from [PHP Argument Injection](http://www.afolgado.com/2017/06/10/phpcommandiargumenti/), since we know is being 'CommandI escaped', let's use the working payload for the Argument Injection:
 
 ```bash
 Payload:
@@ -115,8 +115,8 @@ As we can see this will perform correctly the Argument Injection over an uncontr
 
 ## CVE-2016-10033: The uncontrolled use of mail() by PHPMailer
 
-Now we have explained the dangerous use of mail() in PHP let's talk about real playgrounds: PHPMailer.
-This third party library help the developer to send emails with a lot of different configurations, we can install it in our PHP projects using for example composer. As we can see in this PoC, second option send an email by crafting a PHPMailer object with default configurations:
+Now we have explained the dangerous use of mail() in PHP, let's talk about real playgrounds: PHPMailer.
+This third party library help developers to send emails with a lot of different configurations, we can install it in our PHP projects using for example PHP composer. As we can see in this PoC, second option/button send an email by crafting a PHPMailer object with default configurations:
 
 
 \poc.php
@@ -142,7 +142,7 @@ Let's look deeper at what is happening inside PHPMailer when we create the PHPMa
 
 /phpmailer/class.phpmailer.php
 
-1.'Send' method called from object PHPMailer:
+1.'Send' method is called from object 'PHPMailer':
 
 ```php
 [...]
@@ -167,7 +167,7 @@ Let's look deeper at what is happening inside PHPMailer when we create the PHPMa
 [...]
 ```
 
-2.PostSend() from send():
+2.PostSend() is called within send():
 
 ```php
 [...]
@@ -191,7 +191,7 @@ Let's look deeper at what is happening inside PHPMailer when we create the PHPMa
 [...]
 ```
 
-3.Default configurations of the object will trigger method 'mailSend':
+3.Default configurations of the PHPMailer object will trigger method 'mailSend':
 
 ```php
 [...]
@@ -258,7 +258,7 @@ Sender attribute will be set automatically set by some methods like "setfrom()":
 But if developer decides to set PHPMailer attributes by hand, and forgot about Sender, function will stop to be vulnerable (since mailsend() will not feed mail() with 'extraParams').
 
 
-4.At last we arrive to mailPassthru(). The function in PHPMailer that calls mail().
+4.At last we arrive to mailPassthru(). The function in PHPMailer that calls PHP mail().
 
 ```php
 [...]
@@ -279,7 +279,7 @@ But if developer decides to set PHPMailer attributes by hand, and forgot about S
 [...]
 ```
 
-In first instance it looks like we can just use the same payload that we used for mail() but we can see that is not working conrrectly:
+In first instance, it looks like we can just use the same payload that we used for mail() but we can see that is not working conrrectly:
 
 ```bash
 Payload:
@@ -394,7 +394,7 @@ Received:
 
 It is important to point that modern versions of Apache Server will not let to put in HOSTNAME even spaces...so the Payload will not work in modern versions of it.
 
-Now last question is: Why this doesn't work in previous versions of Wordpress? Why only 4.6?
+Now last question is: **Why this doesn't work in previous versions of Wordpress? Why only 4.6?**
 
 wordpress4.5/wp-includes/pluggable.php:
 ```php
