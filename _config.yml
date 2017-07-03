@@ -7,14 +7,14 @@
 
 # Site settings
 title: AFolgado
-brief-intro: Offensive Security Engineer
+brief-intro: Product Security Engineer
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://afolgado.com" # the base hostname & protocol for your site
 
 permalink: /:year/:month/:day/:title/
 
 # other links
-twitter_username: afolgad
+twitter_username: rebujacker
 facebook_username: 
 github_username: AlvFolgado
 email: 

@@ -12,7 +12,7 @@ type: page
 
 <iframe src="https://githubbadge.appspot.com/alvfolgado?s=1" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder="0"></iframe>
 
-I am a Security Engineer focused in Offensive Security. I will use this blog to comment about my last researches. Mainly as a learning process for myself and to share with the community.
+I am a Product Security Engineer focused in Offensive Security. I will use this blog to comment about my last researches. Mainly as a learning process for myself and to share with the community.
 
 Everyone is invited to comment to apport new ideas,correct any technical mistakes,etc.
 
