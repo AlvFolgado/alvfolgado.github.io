@@ -174,11 +174,12 @@ To answer this question we can look at the Definitions of both functions, and wh
 
 A. ProcessBuilder.java:
 
- As we can see in the [Definition](https://docs.oracle.com/javase/7/docs/api/java/lang/ProcessBuilder.html), ProcessBuilder accept an String[] or a List<String>. These elements define the process to call as the one in the first position of the array, and the rest as separate arguments.
+ As we can see in the [Definition](https://docs.oracle.com/javase/7/docs/api/java/lang/ProcessBuilder.html), ProcessBuilder accept an String[] or a List of Strings. These elements define the process to call as the one in the first position of the array/List, and the rest as separate arguments.
 
  This mean, that if we are receiving an input String from a malicious user, we could not exploit the "spaces" anymore,since they will be just interpreted as a whole argument. The only way to implement this will be by intentionally tokenizing spaces from a whole userInput String and create the right String[].
 
  But, Who is going implement something that tokenize a String that could be crafted with an userInput? 
+ Certainly some 3PP could do this and call after it a ProcessBuilder, but we have in front of us a more obvious approach.
 
  B. Runtime.java:
 
