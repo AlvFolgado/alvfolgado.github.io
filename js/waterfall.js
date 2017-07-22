@@ -32,6 +32,13 @@
       title: 'CVE-2016-1033',
       core_tech: 'PHP',
       description: 'PHPMailer CVE-2016-1033 Reproduction'
+    },{
+      demo_link: 'https://github.com/AlvFolgado/WebRCEPoCs/tree/master/java/CommandI',
+      img_link: 'https://github.com/AlvFolgado/WebRCEPoCs/blob/master/java/Deserialization/DeserializationPoC/web/resources/java.jpg?raw=true',
+      code_link: 'https://github.com/AlvFolgado/WebRCEPoCs/tree/master/java/CommandI',
+      title: 'JAVACommandIPoC',
+      core_tech: 'JAVA',
+      description: 'Learn the dangerous Function in JAVA that let you perform Command and Argument Injections'
     } 
   ];
 

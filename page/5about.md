@@ -10,7 +10,7 @@ type: page
 {:toc}
 
 
-<iframe src="https://githubbadge.appspot.com/alvfolgado?s=1" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder="0"></iframe>
+<a href="{{ site.baseurl }}/" class="site-avatar"><img height="150" width="150" src="/images/avatar.jpeg" /></a>
 
 I am a Product Security Engineer focused in Offensive Security. I will use this blog to comment about my last researches. Mainly as a learning process for myself and to share with the community.
 

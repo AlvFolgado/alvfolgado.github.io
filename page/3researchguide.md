@@ -52,6 +52,31 @@ pcntl_exec("/usr/sbin/sendmail -f".$emailFrom);
 ```php
 mail($emailTo,$subject,$body,$headers,$InjectableExtraParams);
 ```
+
+## JAVA - Command Injection:
+
+```java
+
+//We are passing strings without control to a sh/bash/cmd ==> Command Injection
+
+String[] cmd = new String[]{"/bin/bash","-c","/usr/sbin/sendmail -f"+emailFrom};
+
+Runtime.getRuntime().exec(cmd);
+
+ProcessBuilder pb = new ProcessBuilder(cmd);
+pb.start();
+
+```
+
+## JAVA - Argument Injection:
+
+```java
+//We are invoking an process without calling a sh/bash/cmd . But Still, thanks to Runtime.java tokenizer, we are able to inject extra arguments to target process.
+
+String cmd = "/usr/sbin/sendmail -f" + emailFrom;
+Runtime.getRuntime().exec(cmd);
+```
+
 ## Comments
 
 {% include comments.html %}
