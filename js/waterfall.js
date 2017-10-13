@@ -39,7 +39,14 @@
       title: 'JAVACommandIPoC',
       core_tech: 'JAVA',
       description: 'Learn the dangerous Function in JAVA that let you perform Command and Argument Injections'
-    } 
+    },{
+      demo_link: 'https://github.com/rebujacker/CVEPoCs/tree/master/JAVA/CodeInjection/S2-046--CVE-2017-5638',
+      img_link: '/images/post4/intro.jpg',
+      code_link: 'https://github.com/rebujacker/CVEPoCs/tree/master/JAVA/CodeInjection/S2-046--CVE-2017-5638',
+      title: 'S2-046--CVE-2017-5638',
+      core_tech: 'JAVA',
+      description: 'Learn te dangers of S2-046--CVE-2017-5638 thorugh java debugging'
+    }
   ];
 
   contentInit(demoContent) 
