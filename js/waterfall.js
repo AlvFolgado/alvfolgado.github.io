@@ -41,11 +41,32 @@
       description: 'Learn the dangerous Function in JAVA that let you perform Command and Argument Injections'
     },{
       demo_link: 'https://github.com/rebujacker/CVEPoCs/tree/master/JAVA/CodeInjection/S2-046--CVE-2017-5638',
-      img_link: '/images/post4/intro.jpg',
+      img_link: '/images/post4/intro2.jpg',
       code_link: 'https://github.com/rebujacker/CVEPoCs/tree/master/JAVA/CodeInjection/S2-046--CVE-2017-5638',
       title: 'S2-046--CVE-2017-5638',
       core_tech: 'JAVA',
       description: 'Learn te dangers of S2-046--CVE-2017-5638 thorugh java debugging'
+    },{
+      demo_link: 'https://github.com/rebujacker/WebRCEPoCs/tree/master/ruby/CommandArgI',
+      img_link: '/images/post20171024/intro.jpg',
+      code_link: 'https://github.com/rebujacker/WebRCEPoCs/tree/master/ruby/CommandArgI',
+      title: 'RubyCommandIPoC',
+      core_tech: 'RUBY',
+      description: ''
+    },{
+      demo_link: 'https://github.com/rebujacker/WebRCEPoCs/tree/master/python/PoCcommandIPython',
+      img_link: '/images/post20171024/intro.jpg',
+      code_link: 'https://github.com/rebujacker/WebRCEPoCs/tree/master/python/PoCcommandIPython',
+      title: 'PythonCommandI',
+      core_tech: 'PYTHON',
+      description: ''
+    },{
+      demo_link: 'https://github.com/rebujacker/WebRCEPoCs/tree/master/javascript/jscommandi',
+      img_link: '/images/post20171024/intro.jpg',
+      code_link: 'https://github.com/rebujacker/WebRCEPoCs/tree/master/javascript/jscommandi',
+      title: 'JSCommandI',
+      core_tech: 'JS',
+      description: ''
     }
   ];
 
