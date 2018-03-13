@@ -21,15 +21,13 @@ Thank everyone to take the time to reach the blog and read the content.
 Love,cats,rebujito and Hack the planet!
 
 
-**Legal Disclaimer** Everything in this blog alongside with my Github has only educational purposes. Publications/software are made using my personal time and is not personal job related.
+***Legal Disclaimer*** : Everything in this blog, alongside with my Github, have only educational purposes. Publications/software are made using my personal time and is not related to my actual job.
 
 ## Contact
 
 * [GitHub](https://github.com/rebujacker)
 * [Twitter](https://twitter.com/rebujacker)
-* [Linkedin](https://www.linkedin.com/in/alvaro-folgado-rueda-44292083)
-
-
+* [Contact](mail:rebujacker@gmail.com)
 
 ### Update Log
 
