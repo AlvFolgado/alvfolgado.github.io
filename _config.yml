@@ -7,7 +7,7 @@
 
 # Site settings
 title: Rebujacker
-brief-intro: Educational offsec and Web Exploitation
+brief-intro: Educational Offsec and Web Exploitation
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://rebujacker.com" # the base hostname & protocol for your site
 
@@ -20,7 +20,7 @@ github_username: rebujacker
 email: 
 weibo_username: 
 zhihu_username: 
-linkedIn_username: alvaro-folgado-rueda
+linkedIn_username: 
 dribbble_username:
 
 description_footer: Love,cats,rebujito and Hack the planet!
