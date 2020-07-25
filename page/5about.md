@@ -18,10 +18,8 @@ Everyone is invited to comment to apport new ideas,correct any technical mistake
 
 Thank everyone to take the time to reach the blog and read the content.
 
-Love,cats,rebujito and Hack the planet!
 
-
-***Legal Disclaimer*** : Everything in this blog, alongside with my Github, have only educational purposes. Publications/software are made using my personal time and is not related to my actual job.
+***Legal Disclaimer*** : Everything in this blog, alongside with my Github, have only educational purposes. Publications/software are made using my personal resources.
 
 ## Contact
 
@@ -31,6 +29,9 @@ Love,cats,rebujito and Hack the planet!
 
 ### Update Log
 
+*2020.7.25*
+
+- `[^]` Siesta Time Beta v1
 *2017.5.28*
 
 - `[^]` Blog Creation
