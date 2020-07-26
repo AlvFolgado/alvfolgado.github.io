@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "Ruby/Python/JS Command and Argument Injection"
-categories: TheoricalPractise 
-tags:  CommandI ArgumentI JS RUBY PYTHON C
-author: AlvaroFolgado
+categories: Offensive AppSec 
+tags:  CommandInjection
+author: Alvaro Folgado (@rebujacker)
 ---
 
 * content

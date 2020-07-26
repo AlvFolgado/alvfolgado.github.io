@@ -3,7 +3,7 @@ layout: post
 title:  "PHP Command Injection and Argument Injection"
 categories: TheoricalPractise 
 tags:  CommandI ArgumentI PHP
-author: AlvaroFolgado
+author: Alvaro Folgado (@rebujacker)
 ---
 
 * content

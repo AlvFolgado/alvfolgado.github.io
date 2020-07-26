@@ -19,11 +19,12 @@ Everyone is invited to comment to apport new ideas,correct any technical mistake
 Thank everyone to take the time to reach the blog and read the content.
 
 
-***Legal Disclaimer*** : Everything in this blog, alongside with my Github, have only educational purposes. Publications/software are made using my personal resources.
+***Legal Disclaimer*** : Everything in this blog, alongside with my Github/Gitlab, have only educational purposes. Publications/software are made using my personal resources.
 
 ## Contact
 
 * [GitHub](https://github.com/rebujacker)
+* [Gitlab](https://gitlab.com/rebujacker)
 * [Twitter](https://twitter.com/rebujacker)
 * [Contact](mail:rebujacker@gmail.com)
 

@@ -1,16 +1,16 @@
 ---
 layout: post
-title:  "Siesta Time Framework"
+title:  "Siesta Time Framework Beta v1.0"
 categories: RedTeam 
 tags:  Implant C2
-author: AlvaroFolgado
+author: Alvaro Folgado (@rebujacker)
 ---
 
 * content
 {:toc}
 
 
-![](https://github.com/rebujacker/SiestaTime/blob/master/src/client/electronGUI/static/icons/png/STicon.png)
+![](/images/post20200725/STicon.png)STicon.png)
 
 ## Introduction
 

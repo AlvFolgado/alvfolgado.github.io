@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "JAVA Command and Argument Injection"
-categories: TheoricalPractise 
-tags:  CommandI ArgumentI JAVA
-author: AlvaroFolgado
+categories: Offensive AppSec
+tags:  CommandInjection
+author: Alvaro Folgado (@rebujacker)
 ---
 
 * content
