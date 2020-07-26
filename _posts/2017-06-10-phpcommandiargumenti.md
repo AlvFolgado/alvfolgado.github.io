@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "PHP Command Injection and Argument Injection"
-categories: TheoricalPractise 
-tags:  CommandI ArgumentI PHP
+categories: OffensiveAppSec
+tags:  CommandI
 author: Alvaro Folgado (@rebujacker)
 ---
 

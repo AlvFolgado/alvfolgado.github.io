@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "From C code to CMS software: Getting RCE in Wordpress 4.6 thanks to ArgumentI"
-categories: Offensive AppSec 
-tags:  CommandInjection
+categories: OffensiveAppSec
+tags:  CommandI
 author: Alvaro Folgado (@rebujacker)
 ---
 

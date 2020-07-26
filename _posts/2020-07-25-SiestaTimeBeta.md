@@ -10,7 +10,7 @@ author: Alvaro Folgado (@rebujacker)
 {:toc}
 
 
-![](/images/post20200725/STicon.png)STicon.png)
+![](/images/post20200725/STicon.png)
 
 ## Introduction
 
